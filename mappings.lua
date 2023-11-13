@@ -39,6 +39,8 @@ M.disabled = {
     ["<leader>wr"] = "",
     ["<tab>"] = "",
     ["<leader>h"] = "",
+    ["gr"] = "",
+    ["gd"] = "",
   },
 }
 
@@ -88,6 +90,8 @@ M.tabs = {
 M.telescope = {
   n = {
     ["<leader>s"] = {"<cmd> Telescope find_files <CR>", "Search files"},
+    ["gr"] = {"<cmd> Telescope lsp_references <CR>", "Preview references"},
+    ["gd"] = {"<cmd> Telescope lsp_definitions <CR>", "Preview definitions"},
   },
 }
 
@@ -124,14 +128,14 @@ M.term = {
 M.tabufline = {
   n = {
     -- cycle through buffers
-    ["<leader><tab>"] = {
+    ["§"] = {
       function()
         require("nvchad.tabufline").tabuflineNext()
       end,
       "Goto next buffer",
     },
 
-    ["<leader><S-tab>"] = {
+    ["<S-§>"] = {
       function()
         require("nvchad.tabufline").tabuflinePrev()
       end,

@@ -1,10 +1,12 @@
 local cmp = require "cmp"
 
 local plugins = {
+  -- OVERRIDES
   { "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
         "rust-analyzer",
+        "elm-language-server",
       },
     },
   },
@@ -14,6 +16,42 @@ local plugins = {
       require "custom.configs.lspconfig"
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        -- defaults 
+        "vim",
+        "lua",
+
+        -- web dev 
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "tsx",
+        "json",
+        "elm",
+        -- "vue", "svelte",
+
+       -- low level
+        "rust",
+      },
+    },
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function()
+      local defaultOpts = require "plugins.configs.telescope"
+      local myOps = require "custom.configs.telescope"
+      return vim.tbl_deep_extend("force", defaultOpts, myOps)
+    end,
+  },
+
+
+  -- MINE
+  ---- Rust
+  { "williamboman/mason-lspconfig.nvim", },
   { "simrat39/rust-tools.nvim",
     ft = "rust",
     dependencies = "neovim/nvim-lspconfig",
@@ -24,9 +62,10 @@ local plugins = {
       require('rust-tools').setup(opts)
     end
   },
-  { "mfussenegger/nvim-dap",
-    init = function()
-      require("core.utils").load_mappings("dap")
+  { "rust-lang/rust.vim",
+    ft = "rust",
+    init = function ()
+      vim.g.rustfmt_autosave = 1
     end
   },
   { 'saecki/crates.nvim',
@@ -41,18 +80,6 @@ local plugins = {
       require("core.utils").load_mappings("crates")
     end,
   },
-  { "rust-lang/rust.vim",
-    ft = "rust",
-    init = function ()
-      vim.g.rustfmt_autosave = 1
-    end
-  },
-  { "theHamsta/nvim-dap-virtual-text",
-    lazy = false,
-    config = function(_, opts)
-      require("nvim-dap-virtual-text").setup()
-    end
-  },
   { "hrsh7th/nvim-cmp",
     opts = function()
       local M = require "plugins.configs.cmp"
@@ -65,6 +92,18 @@ local plugins = {
       return M
     end,
   },
+  -- DEBUGGING
+  -- { "mfussenegger/nvim-dap",
+  --   init = function()
+  --     require("core.utils").load_mappings("dap")
+  --   end
+  -- },
+  -- { "theHamsta/nvim-dap-virtual-text",
+  --   lazy = false,
+  --   config = function(_, opts)
+  --     require("nvim-dap-virtual-text").setup()
+  --   end
+  -- },
   { "nvim-treesitter/nvim-treesitter-context",
     lazy = false,
   },
